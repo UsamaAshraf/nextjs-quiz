@@ -72,13 +72,15 @@ export default function Quiz() {
           <span className="text-2xl">🟡</span>
           <h1 className="text-lg font-semibold">Quiz - {toStudyTopic}</h1>
         </div>
-        <div className="flex items-center space-x-2 text-gray-600" hidden={isReviewMode}>
-          <i className="far fa-clock"></i>
-          <span className="font-medium">Time left:</span>
-          <span className="bg-gray-200 px-2 py-1 rounded text-sm font-semibold inline-block w-20 text-center">
-            {formatTime(timeLeftSeconds)}
-          </span>
-        </div>
+        {!isReviewMode && (
+          <div className="flex items-center space-x-2 text-gray-600">
+            <i className="far fa-clock"></i>
+            <span className="font-medium">Time left:</span>
+            <span className="bg-gray-200 px-2 py-1 rounded text-sm font-semibold inline-block w-20 text-center">
+              {formatTime(timeLeftSeconds)}
+            </span>
+          </div>
+        )}
       </div>
       <div className="mt-6 space-y-6">
         <form name="quiz-form" onSubmit={handleQuizSubmission}>
@@ -91,23 +93,23 @@ export default function Quiz() {
               isReviewMode={!!isReviewMode}
             />
           ))}
-          <div className="flex justify-end mt-10 space-x-4">
-            <button
-              type="button"
-              onClick={handleCancelllation}
-              className="bg-gray-500 text-white font-semibold px-6 py-2 rounded-full"
-              disabled={isReviewMode}
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="bg-blue-600 text-white font-semibold px-6 py-2 rounded-full"
-              disabled={isReviewMode}
-            >
-              Submit
-            </button>
-          </div>
+          {!isReviewMode && (
+            <div className="flex justify-end mt-10 space-x-4">
+              <button
+                type="button"
+                onClick={handleCancelllation}
+                className="bg-gray-500 text-white font-semibold px-6 py-2 rounded-full"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="bg-blue-600 text-white font-semibold px-6 py-2 rounded-full"
+              >
+                Submit
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </div>
