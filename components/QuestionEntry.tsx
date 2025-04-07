@@ -7,11 +7,13 @@ import { useAppContext } from "../context/AppContext";
 export default function QuestionEntry({
   question,
   index,
-  numOfQuestions
+  numOfQuestions,
+  isReviewMode
 }: {
   question: Question;
   index: number;
   numOfQuestions: number;
+  isReviewMode: boolean;
 }) {
   const { submitAnswerToQuestion, unsubmitAnswerToQuestion } = useAppContext();
 
@@ -46,9 +48,13 @@ export default function QuestionEntry({
         <div className="mt-4 space-y-3">
           {question.answerOptions.map((answerOption) => (
             <label
-              onClick={() => {
-                toggleAnswerToQuestion(answerOption.id);
-              }}
+              onClick={
+                isReviewMode
+                  ? undefined
+                  : () => {
+                      toggleAnswerToQuestion(answerOption.id);
+                    }
+              }
               key={`question-${question.id}-option-${answerOption.id}`}
               className={`flex items-center border rounded-lg p-3 cursor-pointer ${
                 isOptionSelectedForQuestion(answerOption.id)
@@ -63,7 +69,7 @@ export default function QuestionEntry({
         </div>
       );
     },
-    [isOptionSelectedForQuestion, toggleAnswerToQuestion]
+    [isOptionSelectedForQuestion, isReviewMode, toggleAnswerToQuestion]
   );
 
   const displayMultiAnswerOptions = useCallback(
@@ -72,7 +78,13 @@ export default function QuestionEntry({
         <div className="mt-4 grid grid-cols-2 gap-3">
           {question.answerOptions.map((answerOption) => (
             <label
-              onClick={() => toggleAnswerToQuestion(answerOption.id)}
+              onClick={
+                isReviewMode
+                  ? undefined
+                  : () => {
+                      toggleAnswerToQuestion(answerOption.id);
+                    }
+              }
               key={`question-${question.id}-option-${answerOption.id}`}
               className={`flex items-center border rounded-lg p-3 cursor-pointer ${
                 isOptionSelectedForQuestion(answerOption.id)
@@ -91,7 +103,7 @@ export default function QuestionEntry({
         </div>
       );
     },
-    [isOptionSelectedForQuestion, toggleAnswerToQuestion]
+    [isOptionSelectedForQuestion, isReviewMode, toggleAnswerToQuestion]
   );
 
   const options = useMemo(() => {

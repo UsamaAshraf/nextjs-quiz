@@ -18,7 +18,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Link href={APP_ROUTES.HOME_PAGE} className="hover:bg-gray-100 p-2 rounded">
             Home
           </Link>
-          <Link href="/about" className="hover:bg-gray-100 p-2 rounded">
+          <Link href={APP_ROUTES.HOME_PAGE} className="hover:bg-gray-100 p-2 rounded">
             About
           </Link>
         </nav>

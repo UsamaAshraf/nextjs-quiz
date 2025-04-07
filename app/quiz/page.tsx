@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAppContext } from "../../context/AppContext";
 import QuestionEntry from "../../components/QuestionEntry";
 
@@ -10,6 +10,9 @@ import { APP_CONFIG } from "../../config";
 
 export default function Quiz() {
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const isReviewMode = searchParams.get("review") as unknown as boolean;
 
   const { questions, toStudyTopic, setToStudyTopic, setTimeTakenToCompleteSeconds } =
     useAppContext();
@@ -69,7 +72,7 @@ export default function Quiz() {
           <span className="text-2xl">🟡</span>
           <h1 className="text-lg font-semibold">Quiz - {toStudyTopic}</h1>
         </div>
-        <div className="flex items-center space-x-2 text-gray-600">
+        <div className="flex items-center space-x-2 text-gray-600" hidden={isReviewMode}>
           <i className="far fa-clock"></i>
           <span className="font-medium">Time left:</span>
           <span className="bg-gray-200 px-2 py-1 rounded text-sm font-semibold inline-block w-20 text-center">
@@ -85,6 +88,7 @@ export default function Quiz() {
               question={question}
               index={index}
               numOfQuestions={questions.length}
+              isReviewMode={!!isReviewMode}
             />
           ))}
           <div className="flex justify-end mt-10 space-x-4">
@@ -92,12 +96,14 @@ export default function Quiz() {
               type="button"
               onClick={handleCancelllation}
               className="bg-gray-500 text-white font-semibold px-6 py-2 rounded-full"
+              disabled={isReviewMode}
             >
               Cancel
             </button>
             <button
               type="submit"
               className="bg-blue-600 text-white font-semibold px-6 py-2 rounded-full"
+              disabled={isReviewMode}
             >
               Submit
             </button>

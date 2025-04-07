@@ -2,7 +2,7 @@
 
 - Catering for different types of questions. Programmed for two.
 
-- Consider persisting state across page refreshes - questions, answers and timer. Chose not to for simplcity's sake.
+- Consider persisting state across page refreshes using localStorage - questions, answers and timer. Chose not to for simplcity's sake.
 
 - Considered adding time tracking for individual questions, but couldn't really pin down how that would work; a user can edit
 their answer to a question any time and does not necessarily have to submit answers in order.

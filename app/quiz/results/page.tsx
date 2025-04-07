@@ -68,6 +68,10 @@ export default function Results() {
     router.push(APP_ROUTES.QUIZ_PAGE);
   }, [resetSubmittedAnswers, router]);
 
+  const handleReviewOfQuizAnswers = useCallback(() => {
+    router.push(`${APP_ROUTES.QUIZ_PAGE}?review=true`);
+  }, [router]);
+
   const handleCompletion = useCallback(() => {
     setToStudyTopic("");
     router.push(APP_ROUTES.HOME_PAGE);
@@ -157,6 +161,7 @@ export default function Results() {
             </p>
             <a
               href="#"
+              onClick={handleReviewOfQuizAnswers}
               className="text-blue-600 text-sm font-semibold inline-flex items-center mt-1"
             >
               Review <i className="fas fa-chevron-right ml-1 text-xs"></i>
