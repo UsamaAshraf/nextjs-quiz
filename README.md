@@ -41,4 +41,4 @@ for maintainability.
 
 - Create a somewhat interesting, meaningful link between the topic entered by the user and the questions returned.
 
-- Division of global context perhaps, e.g. separate for questions, as opposed to having one app context.
+- Division of global context perhaps, e.g. separate for questions, as opposed to having one app context - better separation of concern, more readable context.
