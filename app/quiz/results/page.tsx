@@ -64,6 +64,27 @@ export default function Results() {
     };
   }, [timeTakenToCompleteSeconds, totalWrong, totalCorrect]);
 
+  const progressCircle = useMemo(() => {
+    const total = 100;
+    const correctAngle = (correctPercentage / total) * 360;
+    const wrongAngle = ((total - correctPercentage) / total) * 360;
+
+    return (
+      <div
+        className="mt-2 relative w-14 h-14 rounded-full"
+        style={{
+          background: `conic-gradient(
+            green ${correctAngle}deg,
+            orange 0 ${correctAngle + wrongAngle}deg,
+            #e5e7eb 0deg
+          )`
+        }}
+      >
+        <div className="absolute inset-1 bg-white rounded-full flex items-center justify-center text-sm"></div>
+      </div>
+    );
+  }, [correctPercentage]);
+
   const handleRetryOfQuiz = useCallback(() => {
     resetSubmittedAnswers();
     router.push(APP_ROUTES.QUIZ_PAGE);
@@ -99,16 +120,7 @@ export default function Results() {
           <h3 className="text-gray-700 font-semibold mb-2">Quiz Score</h3>
           <p className="text-3xl font-bold mb-3">{correctPercentage}%</p>
           <div className="flex items-center">
-            {/* <div
-              className={`relative w-16 h-16 rounded-full bg-[conic-gradient(theme(colors.green.500)_0%_${
-                correctPercentage || 1
-              }%,theme(colors.orange.500)_${correctPercentage || 1}%_100%)]`}
-            >
-              <div className="absolute inset-1.5 bg-white rounded-full flex items-center justify-center text-sm"></div>
-            </div> */}
-            <div className={`mt-4 relative w-14 h-14 rounded-full bg-[conic-gradient(theme(colors.green.500)_0%_60%,theme(colors.orange.500)_60%_100%)]`}>
-              <div className="absolute inset-1 bg-white rounded-full flex items-center justify-center text-sm"></div>
-            </div>
+            {progressCircle}
             <div className="ml-4">
               <p className="text-sm text-green-500">
                 Correct
