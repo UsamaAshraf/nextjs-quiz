@@ -4,9 +4,8 @@ import React, { useCallback, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useAppContext } from "../../../context/AppContext";
 
-import { QuestionType } from "../../../lib/quiz";
-
 import { APP_ROUTES } from "../../../routes";
+import { evaluateSubmittedAnswersToQuestions } from "../../../lib/api";
 
 export default function Results() {
   const { toStudyTopic, setToStudyTopic, questions, timeTakenToCompleteSeconds } = useAppContext();
@@ -19,44 +18,10 @@ export default function Results() {
     }
   }, [toStudyTopic, router, questions.length]);
 
-  const { totalCorrect, totalWrong, totalUnanswered } = useMemo(() => {
-    const totalQuestions = questions.length;
-    if (totalQuestions === 0) return { totalCorrect: 0, totalWrong: 0, totalUnanswered: 0 };
-
-    let correctAnswersCount = 0;
-    let wrongAnswersCount = 0;
-
-    for (const question of questions) {
-      if (question.type === QuestionType.SingleAnswer) {
-        // Check if the question has been answered.
-        if (question.submittedOptionId === undefined) {
-          continue;
-        }
-
-        if (question.submittedOptionId === question.correctAnswerId) correctAnswersCount++;
-        else wrongAnswersCount++;
-      } else if (question.type === QuestionType.MultiAnswer) {
-        // Check if the question has been answered.
-        if (!question.submittedOptionIds) {
-          continue;
-        }
-
-        const isCorrect = Array.from(question.correctAnswerIds).every(
-          (id) =>
-            question.submittedOptionIds?.has(id) &&
-            question.correctAnswerIds.size === question.submittedOptionIds.size
-        );
-        if (isCorrect) correctAnswersCount++;
-        else wrongAnswersCount++;
-      }
-    }
-
-    return {
-      totalCorrect: correctAnswersCount,
-      totalWrong: wrongAnswersCount,
-      totalUnanswered: totalQuestions - (correctAnswersCount + wrongAnswersCount)
-    };
-  }, [questions]);
+  const { totalCorrect, totalWrong, totalUnanswered } = useMemo(
+    () => evaluateSubmittedAnswersToQuestions(questions),
+    [questions]
+  );
 
   const correctPercentage = useMemo(() => {
     const totalQuestions = questions.length;
@@ -91,6 +56,10 @@ export default function Results() {
       avgTimeMessage: avgMessage
     };
   }, [timeTakenToCompleteSeconds, totalWrong, totalCorrect]);
+
+  const handleRetryOfQuiz = useCallback(() => {
+    router.push(APP_ROUTES.QUIZ_PAGE);
+  }, [router]);
 
   const handleCompletion = useCallback(() => {
     setToStudyTopic("");
@@ -161,6 +130,7 @@ export default function Results() {
             <p className="text-sm text-gray-500 mt-2">Retake the test to improve your score.</p>
             <a
               href="#"
+              onClick={handleRetryOfQuiz}
               className="text-blue-600 text-sm font-semibold inline-flex items-center mt-1"
             >
               Try Again <i className="fas fa-chevron-right ml-1 text-xs"></i>
