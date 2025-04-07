@@ -11,6 +11,7 @@ interface AppState {
   setQuestions: (questions: Question[]) => void;
   submitAnswerToQuestion: (questionId: number, optionId: number) => void;
   unsubmitAnswerToQuestion: (questionId: number, optionId: number) => void;
+  resetSubmittedAnswers: () => void;
   setTimeTakenToCompleteSeconds: (timeSecs: number) => void;
 }
 
@@ -62,6 +63,19 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
+  const resetSubmittedAnswers = () => {
+    setQuestions((prevQuestions) =>
+      prevQuestions.map((question) => {
+        if (question.type === QuestionType.MultiAnswer) {
+          question.submittedOptionIds = undefined;
+        } else if (question.type === QuestionType.SingleAnswer) {
+          question.submittedOptionId = undefined;
+        }
+        return question;
+      })
+    );
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -71,6 +85,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setQuestions,
         submitAnswerToQuestion,
         unsubmitAnswerToQuestion,
+        resetSubmittedAnswers,
         setTimeTakenToCompleteSeconds,
         timeTakenToCompleteSeconds
       }}

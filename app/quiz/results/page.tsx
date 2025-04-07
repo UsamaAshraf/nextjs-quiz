@@ -8,7 +8,13 @@ import { APP_ROUTES } from "../../../routes";
 import { evaluateSubmittedAnswersToQuestions } from "../../../lib/api";
 
 export default function Results() {
-  const { toStudyTopic, setToStudyTopic, questions, timeTakenToCompleteSeconds } = useAppContext();
+  const {
+    toStudyTopic,
+    setToStudyTopic,
+    questions,
+    timeTakenToCompleteSeconds,
+    resetSubmittedAnswers
+  } = useAppContext();
   const router = useRouter();
 
   useEffect(() => {
@@ -58,8 +64,9 @@ export default function Results() {
   }, [timeTakenToCompleteSeconds, totalWrong, totalCorrect]);
 
   const handleRetryOfQuiz = useCallback(() => {
+    resetSubmittedAnswers();
     router.push(APP_ROUTES.QUIZ_PAGE);
-  }, [router]);
+  }, [resetSubmittedAnswers, router]);
 
   const handleCompletion = useCallback(() => {
     setToStudyTopic("");
