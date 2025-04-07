@@ -4,10 +4,9 @@ import React, { useCallback, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useAppContext } from "../../../context/AppContext";
 
-import { QuestionType } from "../../../lib/api";
+import { QuestionType } from "../../../lib/quiz";
 
-import routes from "../../../routes";
-
+import { APP_ROUTES } from "../../../routes";
 
 export default function Results() {
   const { toStudyTopic, setToStudyTopic, questions, timeTakenToCompleteSeconds } = useAppContext();
@@ -15,11 +14,10 @@ export default function Results() {
 
   useEffect(() => {
     if (!toStudyTopic.length || !questions.length) {
-      router.push(routes.HOME_PAGE);
+      router.push(APP_ROUTES.HOME_PAGE);
       return;
     }
-  }
-  , [toStudyTopic, router]);
+  }, [toStudyTopic, router, questions.length]);
 
   const { totalCorrect, totalWrong, totalUnanswered } = useMemo(() => {
     const totalQuestions = questions.length;
@@ -69,21 +67,23 @@ export default function Results() {
 
   const isResultSatisfactory = useMemo(() => {
     return correctPercentage > 60;
-  }
-, [correctPercentage]);
+  }, [correctPercentage]);
 
-  const message = useMemo(() => isResultSatisfactory ? "Awesome work!" : "Don't worry, you'll bounce back!", [
-    isResultSatisfactory
-  ]);
+  const message = useMemo(
+    () => (isResultSatisfactory ? "Awesome work!" : "Don't worry, you'll bounce back!"),
+    [isResultSatisfactory]
+  );
 
   const { minutesTakenToComplete, remainderSeconds, avgTimeMessage } = useMemo(() => {
     const totalAttempted = totalWrong + totalCorrect;
     const minutes = Math.floor(timeTakenToCompleteSeconds / 60);
     const seconds = timeTakenToCompleteSeconds % 60;
-    const avgTimePerQuestionSecs = totalAttempted > 0 ? Math.round(timeTakenToCompleteSeconds / totalAttempted) : 0;
-    const avgMessage = avgTimePerQuestionSecs > 60
-      ? `${Math.floor(avgTimePerQuestionSecs / 60)} min ${avgTimePerQuestionSecs % 60} secs`
-      : `${avgTimePerQuestionSecs} secs`;
+    const avgTimePerQuestionSecs =
+      totalAttempted > 0 ? Math.round(timeTakenToCompleteSeconds / totalAttempted) : 0;
+    const avgMessage =
+      avgTimePerQuestionSecs > 60
+        ? `${Math.floor(avgTimePerQuestionSecs / 60)} min ${avgTimePerQuestionSecs % 60} secs`
+        : `${avgTimePerQuestionSecs} secs`;
 
     return {
       minutesTakenToComplete: minutes,
@@ -94,16 +94,14 @@ export default function Results() {
 
   const handleCompletion = useCallback(() => {
     setToStudyTopic("");
-    router.push(routes.HOME_PAGE);
+    router.push(APP_ROUTES.HOME_PAGE);
   }, [router, setToStudyTopic]);
 
   return (
     <div className="max-w-[1020px] mx-auto px-6 py-6 h-screen">
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center space-x-3">
-          <span className="text-2xl">
-            {isResultSatisfactory ? "🟢" : "🟡"}
-          </span>
+          <span className="text-2xl">{isResultSatisfactory ? "🟢" : "🟡"}</span>
           <h1 className="text-lg font-semibold">{toStudyTopic}</h1>
         </div>
       </div>
@@ -120,14 +118,19 @@ export default function Results() {
           <h3 className="text-gray-700 font-semibold mb-2">Quiz Score</h3>
           <p className="text-3xl font-bold mb-3">{correctPercentage}%</p>
           <div className="flex items-center space-x-4">
-            <div className={`relative w-16 h-16 rounded-full bg-[conic-gradient(theme(colors.green.500)_0%_${correctPercentage || 1}%,theme(colors.orange.500)_${correctPercentage || 1}%_100%)]`}>
-              <div className="absolute inset-1.5 bg-white rounded-full flex items-center justify-center text-sm">
-              </div>
+            <div
+              className={`relative w-16 h-16 rounded-full bg-[conic-gradient(theme(colors.green.500)_0%_${
+                correctPercentage || 1
+              }%,theme(colors.orange.500)_${correctPercentage || 1}%_100%)]`}
+            >
+              <div className="absolute inset-1.5 bg-white rounded-full flex items-center justify-center text-sm"></div>
             </div>
             <div>
               <p className="text-sm text-green-500">
                 Correct
-                <span className="text-gray-500 font-semibold text-sm ml-4 mt-2">{totalCorrect}</span>
+                <span className="text-gray-500 font-semibold text-sm ml-4 mt-2">
+                  {totalCorrect}
+                </span>
               </p>
               <p className="text-sm text-orange-500 mt-2">
                 Incorrect

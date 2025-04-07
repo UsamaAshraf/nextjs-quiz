@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useMemo } from "react";
-import { Question, QuestionType } from "../lib/api";
+import { Question, QuestionType } from "../lib/quiz";
 import { useAppContext } from "../context/AppContext";
 
 export default function QuestionEntry({

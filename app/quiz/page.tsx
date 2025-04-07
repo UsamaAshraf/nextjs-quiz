@@ -5,19 +5,20 @@ import { useRouter } from "next/navigation";
 import { useAppContext } from "../../context/AppContext";
 import QuestionEntry from "../../components/QuestionEntry";
 
-import routes from "../../routes";
-import config from "../../config";
+import { APP_ROUTES } from "../../routes";
+import { APP_CONFIG } from "../../config";
 
 export default function Quiz() {
   const router = useRouter();
 
-  const { questions, toStudyTopic, setToStudyTopic, setTimeTakenToCompleteSeconds } = useAppContext();
-  const [timeLeftSeconds, setTimeLeftSeconds] = useState(config.MAX_QUIZ_TIME_ALLOWED_SECS);
+  const { questions, toStudyTopic, setToStudyTopic, setTimeTakenToCompleteSeconds } =
+    useAppContext();
+  const [timeLeftSeconds, setTimeLeftSeconds] = useState(APP_CONFIG.MAX_QUIZ_TIME_ALLOWED_SECS);
 
   // Redirect to landing page if no topic is specified.
   useEffect(() => {
     if (!toStudyTopic.length) {
-      router.push(routes.HOME_PAGE);
+      router.push(APP_ROUTES.HOME_PAGE);
       return;
     }
   }, [toStudyTopic, router]);
@@ -25,12 +26,12 @@ export default function Quiz() {
   // Start the countdown timer.
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeftSeconds((prevTimeLeftSecs) => {
+      setTimeLeftSeconds((prevTimeLeftSecs: number) => {
         if (prevTimeLeftSecs <= 1) {
           clearInterval(timer);
 
-          setTimeTakenToCompleteSeconds(config.MAX_QUIZ_TIME_ALLOWED_SECS);
-          router.push(routes.RESULTS_PAGE);
+          setTimeTakenToCompleteSeconds(APP_CONFIG.MAX_QUIZ_TIME_ALLOWED_SECS);
+          router.push(APP_ROUTES.RESULTS_PAGE);
           return 0;
         }
         return prevTimeLeftSecs - 1;
@@ -38,7 +39,7 @@ export default function Quiz() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [router]);
+  }, [router, setTimeTakenToCompleteSeconds]);
 
   const formatTime = useCallback((seconds: number) => {
     const minutes = Math.floor(seconds / 60);
@@ -55,8 +56,8 @@ export default function Quiz() {
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      setTimeTakenToCompleteSeconds(config.MAX_QUIZ_TIME_ALLOWED_SECS - timeLeftSeconds);
-      router.push(routes.RESULTS_PAGE);
+      setTimeTakenToCompleteSeconds(APP_CONFIG.MAX_QUIZ_TIME_ALLOWED_SECS - timeLeftSeconds);
+      router.push(APP_ROUTES.RESULTS_PAGE);
     },
     [router, timeLeftSeconds, setTimeTakenToCompleteSeconds]
   );

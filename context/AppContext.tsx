@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useContext, useState } from "react";
 
-import { Question, QuestionType } from "../lib/api";
+import { Question, QuestionType } from "../lib/quiz";
 
 interface AppState {
   toStudyTopic: string;
@@ -71,8 +71,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setQuestions,
         submitAnswerToQuestion,
         unsubmitAnswerToQuestion,
-        setTimeTakenToCompleteSeconds,  
-        timeTakenToCompleteSeconds,
+        setTimeTakenToCompleteSeconds,
+        timeTakenToCompleteSeconds
       }}
     >
       {children}

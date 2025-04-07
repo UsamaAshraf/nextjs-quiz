@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAppContext } from "../context/AppContext";
 import { getQuestions } from "../lib/api";
 
-import routes from "../routes";
+import { APP_ROUTES } from "../routes";
 
 import Toast from "../components/Toast";
 
@@ -48,7 +48,7 @@ export default function Home() {
       const questionsFromApi = getQuestions(toStudyTopic);
       setQuestions(questionsFromApi);
 
-      router.push(routes.QUIZ_PAGE);
+      router.push(APP_ROUTES.QUIZ_PAGE);
     },
     [toStudyTopic, setQuestions, router, triggerError]
   );

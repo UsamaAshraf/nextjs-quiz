@@ -1,4 +1,4 @@
-# Considerations
+# Some Considerations
 
 - Catering for different types of questions. Programmed for two.
 
@@ -7,6 +7,10 @@ Chose not to for simplcity's sake.
 
 - Considered adding time tracking for individual questions 
 - Did not go with reducers or Redux - kept it simple
+
+- General idea was to have decent componenet decomposition and avoid unnecessary re-rendering as much as possible
+
+- Using linter and prettifier to keep a standard code style, consistent with auto-formatting
 
 
 <br>
@@ -22,3 +26,5 @@ for maintainability
 
 - Correct answers being in state, and result calculation happening on the client-side, means they're exposed.
 Such calculations should be executed on the server-side.
+
+- Create an interesting, meaningful link between the topic entered by the user and the questions returned.

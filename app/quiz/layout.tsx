@@ -5,7 +5,7 @@ import React from "react";
 
 import Link from "next/link";
 
-import routes from "../../routes";
+import { APP_ROUTES } from "../../routes";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -15,7 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <h2 className="text-bg font-semibold">Samwell</h2>
         </div>
         <nav className="flex flex-col space-y-4 px-4 py-6">
-          <Link href={routes.HOME_PAGE} className="hover:bg-gray-100 p-2 rounded">
+          <Link href={APP_ROUTES.HOME_PAGE} className="hover:bg-gray-100 p-2 rounded">
             Home
           </Link>
           <Link href="/about" className="hover:bg-gray-100 p-2 rounded">
