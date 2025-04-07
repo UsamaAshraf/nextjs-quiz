@@ -17,7 +17,7 @@ Or `npm run dev -- -p 4000` to run on a specific port.
 - Considered adding time tracking for individual questions, but couldn't really pin down how that would work; a user can edit
 their answer to a question any time and does not necessarily have to submit answers in order.
 
-- Did not go with reducers or Redux - kept it simple.
+- Did not go with reducers or Redux - kept state management simple.
 
 - General idea was to have decent component decomposition and avoid unnecessary re-rendering as much as possible.
 
