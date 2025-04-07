@@ -27,6 +27,6 @@ for maintainability.
 
 - Correct answers being in state, and result calculation happening on the client-side, means they're exposed. Such calculations should be executed on the server-side.
 
-- Create an interesting, meaningful link between the topic entered by the user and the questions returned.
+- Create a somewhat interesting, meaningful link between the topic entered by the user and the questions returned.
 
 - Division of global context perhaps, e.g. separate for questions, as opposed to having one app context.

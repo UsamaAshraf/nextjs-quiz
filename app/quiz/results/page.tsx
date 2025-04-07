@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAppContext } from "../../../context/AppContext";
 
 import { APP_ROUTES } from "../../../routes";
+import { APP_CONFIG } from "../../../config";
 import { evaluateSubmittedAnswersToQuestions } from "../../../lib/api";
 
 export default function Results() {
@@ -37,7 +38,7 @@ export default function Results() {
   }, [totalCorrect, questions]);
 
   const isResultSatisfactory = useMemo(() => {
-    return correctPercentage > 60;
+    return correctPercentage > APP_CONFIG.SATISFACTORY_RESULT_THRESHOLD;
   }, [correctPercentage]);
 
   const message = useMemo(
@@ -97,15 +98,18 @@ export default function Results() {
         <div className="bg-white p-6 rounded-lg shadow">
           <h3 className="text-gray-700 font-semibold mb-2">Quiz Score</h3>
           <p className="text-3xl font-bold mb-3">{correctPercentage}%</p>
-          <div className="flex items-center space-x-4">
-            <div
+          <div className="flex items-center">
+            {/* <div
               className={`relative w-16 h-16 rounded-full bg-[conic-gradient(theme(colors.green.500)_0%_${
                 correctPercentage || 1
               }%,theme(colors.orange.500)_${correctPercentage || 1}%_100%)]`}
             >
               <div className="absolute inset-1.5 bg-white rounded-full flex items-center justify-center text-sm"></div>
+            </div> */}
+            <div className={`mt-4 relative w-14 h-14 rounded-full bg-[conic-gradient(theme(colors.green.500)_0%_60%,theme(colors.orange.500)_60%_100%)]`}>
+              <div className="absolute inset-1 bg-white rounded-full flex items-center justify-center text-sm"></div>
             </div>
-            <div>
+            <div className="ml-4">
               <p className="text-sm text-green-500">
                 Correct
                 <span className="text-gray-500 font-semibold text-sm ml-4 mt-2">
