@@ -1,3 +1,13 @@
+# How To Run
+
+`npm ci`
+
+`npm run dev` (app will boot on port 3000).
+
+Or `npm run dev -- -p 4000` to run on a specific port.
+
+<br>
+
 # Some Considerations
 
 - Catering for different types of questions. Programmed for two.
@@ -13,6 +23,8 @@ their answer to a question any time and does not necessarily have to submit answ
 
 - Using linter and prettifier to keep a standard code style, consistent with auto-formatting.
 
+- Spent considerable time, perhaps too much, on writing Answer as a separate entity vs an attribute of the Question entity.
+
 
 <br>
 
@@ -22,7 +34,7 @@ their answer to a question any time and does not necessarily have to submit answ
 
 - Making form elements keyboard accessible.
 
-- Separate module for holding all question and answer interfacing, comparisons - col-locating this would be better
+- Separate module (quiz) for holding all question and answer interfacing, comparisons - co-locating this would be better
 for maintainability.
 
 - Correct answers being in state, and result calculation happening on the client-side, means they're exposed. Such calculations should be executed on the server-side.
